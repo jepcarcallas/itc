@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SmartCalc Universe</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    /* General Styling */
+    body {
+      font-family: 'Roboto', sans-serif;
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(135deg, #8e44ad, #3498db);
+      color: #333;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px;
+      box-sizing: border-box;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    /* Intro Screen Styling */
+    #introScreen {
+      text-align: center;
+      width: 100%;
+      max-width: 700px;
+      padding: 30px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.9);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      animation: fadeIn 1.5s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    #introScreen h2 {
+      font-size: 2.2rem;
+      color: #3498db;
+      margin-bottom: 10px;
+    }
+
+    #introScreen p {
+      font-size: 1rem;
+      margin: 15px 0;
+    }
+
+    #introScreen .intro-highlight {
+      color: #8e44ad;
+      font-weight: 500;
+    }
+
+    .intro-button {
+      background-color: #3498db;
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 8px;
+      border: none;
+      cursor: pointer;
+      font-size: 1.1rem;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .intro-button:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    /* Main Content Styling */
+    #mainContent {
+      display: none;
+      width: 100%;
+      max-width: 900px;
+      padding: 20px;
+      border-radius: 12px;
+      background: rgba(255, 255, 255, 0.95);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+      margin-top: 20px;
+    }
+
+    .feature-category {
+      font-size: 1.8rem;
+      margin: 20px 0 10px;
+      color: #3498db;
+      font-weight: 500;
+    }
+
+    .feature-card {
+      margin-bottom: 20px;
+      padding: 20px;
+      background: #f9f9f9;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      display: flex;
+      flex-direction: column;
+    }
+
+    .feature-card h3 {
+      font-size: 1.5rem;
+      margin-bottom: 10px;
+      color: #8e44ad;
+    }
+
+    .feature-card input,
+    .feature-card select {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      font-size: 1rem;
+      outline: none;
+      transition: border-color 0.3s;
+    }
+
+    .feature-card input:focus,
+    .feature-card select:focus {
+      border-color: #3498db;
+    }
+
+    .feature-card button {
+      padding: 10px 15px;
+      background-color: #3498db;
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+      font-size: 1rem;
+      transition: background-color 0.3s, transform 0.3s;
+    }
+
+    .feature-card button:hover {
+      background-color: #2980b9;
+      transform: scale(1.05);
+    }
+
+    .feature-card .result {
+      margin-top: 10px;
+      font-size: 1rem;
+      color: #333;
+    }
+
+    /* Table Styling */
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 20px;
+    }
+
+    table th,
+    table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: center;
+    }
+
+    table th {
+      background-color: #8e44ad;
+      color: #fff;
+    }
+
+    /* Footer Styling */
+    footer {
+      text-align: center;
+      padding: 15px;
+      margin-top: 30px;
+      background-color: #3498db;
+      color: #fff;
+      border-radius: 8px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    footer a {
+      color: #fff;
+      text-decoration: none;
+      font-weight: 500;
+      margin: 0 10px;
+      transition: color 0.3s;
+    }
+
+    footer a:hover {
+      color: #8e44ad;
+    }
+
+    /* Responsive Design */
+    @media (max-width: 768px) {
+      #introScreen h2 {
+        font-size: 1.8rem;
+      }
+
+      #mainContent {
+        padding: 15px;
+      }
+
+      .feature-category {
+        font-size: 1.5rem;
+      }
+
+      .feature-card h3 {
+        font-size: 1.2rem;
+      }
+
+      .feature-card input,
+      .feature-card select,
+      .feature-card button {
+        font-size: 0.9rem;
+      }
+
+      .intro-button {
+        padding: 8px 16px;
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <!-- Intro Screen -->
+  <div id="introScreen">
+    <h2>Welcome to SmartCalc!</h2>
+    <p>Embark on a journey through a <span class="intro-highlight">world of intelligent calculations</span>.</p>
+    <p>Whether you're managing finances, exploring math, or converting units, we've got you covered!</p>
+    <p><span class="intro-highlight">SmartCalc</span> is designed to make complex calculations simple and accessible.</p>
+    <button class="intro-button" onclick="showMainContent()">Start Exploring</button>
+  </div>
+
+  <!-- Main Content -->
+  <div id="mainContent">
+    <div class="feature-category">Unit Conversions</div>
+    <div class="feature-card">
+      <h3>Convert Units</h3>
+      <p>Select a conversion type and input a value to convert.</p>
+      <select id="conversionType">
+        <option value="CtoF">Celsius to Fahrenheit</option>
+        <option value="FtoC">Fahrenheit to Celsius</option>
+        <option value="MtoF">Meters to Feet</option>
+        <option value="FtoM">Feet to Meters</option>
+      </select>
+      <input type="number" id="conversionInput" placeholder="Enter value">
+      <button onclick="performConversion()">Convert</button>
+      <div id="conversionResult" class="result"></div>
+    </div>
+
+    <div class="feature-category">Factorial (While Loop)</div>
+    <div class="feature-card">
+      <h3>Find Factorial</h3>
+      <input type="number" id="factorialInput" placeholder="Enter Number">
+      <button onclick="findFactorial()">Calculate</button>
+      <div id="factorialResult" class="result"></div>
+    </div>
+
+    <div class="feature-category">Sum and Average (First N Natural Numbers)</div>
+    <div class="feature-card">
+      <h3>Calculate Sum and Average</h3>
+      <input type="number" id="sumAverageInput" placeholder="Enter N">
+      <button onclick="calculateSumAndAverage()">Calculate</button>
+      <div id="sumAverageResult" class="result"></div>
+    </div>
+
+    <div class="feature-category">Income Tax Calculator</div>
+    <div class="feature-card">
+      <h3>Calculate Income Tax</h3>
+      <input type="number" id="incomeInput" placeholder="Enter Income">
+      <button onclick="calculateIncomeTax()">Calculate</button>
+      <div id="incomeTaxResult" class="result"></div>
+    </div>
+
+    <div class="feature-category">Payroll Calculator</div>
+    <div class="feature-card">
+      <h3>Add Employee Details</h3>
+      <input type="text" id="employeeName" placeholder="Employee Name">
+      <input type="number" id="daysWorked" placeholder="Days Worked">
+      <input type="number" id="dailyRate" placeholder="Daily Rate">
+      <input type="number" id="deductionAmount" placeholder="Deductions">
+      <button onclick="addEmployee()">Add Employee</button>
+      <table>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Employee</th>
+            <th>Gross Pay</th>
+            <th>Deductions</th>
+            <th>Net Pay</th>
+          </tr>
+        </thead>
+        <tbody id="payrollTable"></tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Footer -->
+  <footer>
+    <p>&copy; 2024 SmartCalc Universe. All rights reserved.</p>
+    <p><a href="#">Privacy Policy</a> | <a href="#">Contact</a></p>
+  </footer>
+
+  <script>
+    function showMainContent() {
+      document.getElementById('introScreen').classList.add('hidden');
+      document.getElementById('mainContent').style.display = 'block';
+    }
+
+    function performConversion() {
+      const conversionType = document.getElementById('conversionType').value;
+      const input = parseFloat(document.getElementById('conversionInput').value);
+      let result = '';
+
+      if (isNaN(input)) {
+        alert('Please enter a valid number.');
+        return;
+      }
+
+      switch (conversionType) {
+        case 'CtoF':
+          result = (input * 9/5) + 32;
+          document.getElementById('conversionResult').innerHTML = `Result: ${result.toFixed(2)} °F`;
+          break;
+        case 'FtoC':
+          result = (input - 32) * 5/9;
+          document.getElementById('conversionResult').innerHTML = `Result: ${result.toFixed(2)} °C`;
+          break;
+        case 'MtoF':
+          result = input * 3.28084;
+          document.getElementById('conversionResult').innerHTML = `Result: ${result.toFixed(2)} ft`;
+          break;
+        case 'FtoM':
+          result = input / 3.28084;
+          document.getElementById('conversionResult').innerHTML = `Result: ${result.toFixed(2)} m`;
+          break;
+      }
+    }
+
+    function findFactorial() {
+      const input = parseInt(document.getElementById('factorialInput').value);
+      let result = 1;
+
+      if (input < 0) {
+        alert('Please enter a non-negative number.');
+        return;
+      }
+
+      for (let i = 1; i <= input; i++) {
+        result *= i;
+      }
+      document.getElementById('factorialResult').innerHTML = `Factorial of ${input} is: ${result}`;
+    }
+
+    function calculateSumAndAverage() {
+      const n = parseInt(document.getElementById('sumAverageInput').value);
+      if (isNaN(n) || n <= 0) {
+        alert('Please enter a positive number.');
+        return;
+      }
+
+      let sum = 0;
+      for (let i = 1; i <= n; i++) {
+        sum += i;
+      }
+      const average = sum / n;
+      document.getElementById('sumAverageResult').innerHTML = `Sum: ${sum} | Average: ${average.toFixed(2)}`;
+    }
+
+    function calculateIncomeTax() {
+      const income = parseFloat(document.getElementById('incomeInput').value);
+      if (isNaN(income) || income < 0) {
+        alert('Please enter a valid income.');
+        return;
+      }
+
+      let tax = 0;
+
+      if (income <= 250000) {
+        tax = 0;
+      } else if (income <= 400000) {
+        tax = (income - 250000) * 0.2;
+      } else if (income <= 800000) {
+        tax = 300000 * 0.2 + (income - 400000) * 0.25;
+      } else if (income <= 2000000) {
+        tax = 300000 * 0.2 + 400000 * 0.25 + (income - 800000) * 0.3;
+      } else {
+        tax = 300000 * 0.2 + 400000 * 0.25 + 1200000 * 0.3 + (income - 2000000) * 0.32;
+      }
+
+      document.getElementById('incomeTaxResult').innerHTML = `Income Tax: ₱${tax.toFixed(2)}`;
+    }
+
+    function addEmployee() {
+      const name = document.getElementById('employeeName').value;
+      const daysWorked = parseInt(document.getElementById('daysWorked').value);
+      const dailyRate = parseFloat(document.getElementById('dailyRate').value);
+      const deductionAmount = parseFloat(document.getElementById('deductionAmount').value);
+
+      if (!name || isNaN(daysWorked) || isNaN(dailyRate) || isNaN(deductionAmount)) {
+        alert('Please fill out all fields correctly.');
+        return;
+      }
+
+      const grossPay = daysWorked * dailyRate;
+      const netPay = grossPay - deductionAmount;
+
+      const table = document.getElementById('payrollTable');
+      const row = table.insertRow();
+      row.innerHTML = `
+        <td>${table.rows.length}</td>
+        <td>${name}</td>
+        <td>₱${grossPay.toFixed(2)}</td>
+        <td>₱${deductionAmount.toFixed(2)}</td>
+        <td>₱${netPay.toFixed(2)}</td>
+      `;
+
+      document.getElementById('employeeName').value = '';
+      document.getElementById('daysWorked').value = '';
+      document.getElementById('dailyRate').value = '';
+      document.getElementById('deductionAmount').value = '';
+    }
+  </script>
+</body>
+</html>
